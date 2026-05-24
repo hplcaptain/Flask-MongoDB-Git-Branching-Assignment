@@ -65,6 +65,21 @@ def submit():
     except Exception as e:
         return jsonify({'error': str(e)}), 500
 
+@app.route('/submittodoitem', methods=['POST'])
+def submit_todo_item():
+        item_name = request.form.get('item_name')
+        item_description = request.form.get('item_description')
+
+        todo_data = {
+            "item_name": item_name,
+            "item_description": item_description
+        }
+
+        mongo.db.todo_items.insert_one(todo_data)
+
+        return jsonify({'message': 'To-Do item submitted successfully'}), 200
+   
+
 
         if __name__ == '__main__':
             app.run(host='0.0.0.0', port=5000, debug=True)
